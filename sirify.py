@@ -50,9 +50,6 @@ def main():
 
     time.sleep(2)
 
-    # button = browser.find_element_by_xpath("//button[@data-testid='login-button']")
-    # button.click()
-
     _ = input('Login and then press [Enter]')
 
     print("current lyrics...")
@@ -63,41 +60,37 @@ def main():
 
         try:
 
-            currentLyric = None
-
-            lyrics_windows = browser.find_element_by_class_name('main-view-container')
-
-            # print(lyrics_windows.text)
-
-            if ("These lyrics aren't time synced, yet." in lyrics_windows.text or
-                "It looks like we don't have" in lyrics_windows.text):
+            try:
                 currentLyric = None
-            else:
-                # get current lyrics
-                lyrics_element = lyrics_windows.find_element_by_xpath("//p[@style='--animation-index:1;']")
-                # print(lyrics_element.text)
-                currentLyric = lyrics_element.text
+                lyrics_windows = browser.find_element_by_class_name('main-view-container')
 
-            # update status
+                if "These lyrics aren't time synced, yet." in lyrics_windows.text:
+                    currentLyric = None
+                else:
+                    # get current lyrics
+                    lyrics_element = lyrics_windows.find_element_by_xpath("//p[@style='--animation-index:1;']")
+                    currentLyric = lyrics_element.text
+            except:
+                currentLyric = None
+            
+            time.sleep(0.5)
 
             if currentLyric != lastLyric:
-                lastLyric = currentLyric
+                    lastLyric = currentLyric
 
-                if(currentLyric == None):
-                    # change to music name..
-                    music_name = browser.find_element_by_xpath("//a[@data-testid='nowplaying-track-link']").text
-                    artist_name = browser.find_element_by_xpath("//div[@data-testid='track-info-artists']").text
-                    
-                    changeStatus("%s - %s" % (music_name, artist_name))
-                else:
-                    changeStatus(currentLyric)
+                    if(currentLyric == None):
+                        # change to music name..
+                        music_name = browser.find_element_by_xpath("//a[@data-testid='nowplaying-track-link']").text
+                        artist_name = browser.find_element_by_xpath("//div[@data-testid='track-info-artists']").text
+                        
+                        changeStatus("%s - %s" % (music_name, artist_name))
+                    else:
+                        changeStatus(currentLyric)
 
-                # print(currentLyric)
-
-            time.sleep(0.5)
-        except:
-            print("Something error... rest for 5 secs..")
-            time.sleep(5)
+        except KeyboardInterrupt:
+            changeStatus('') # clear status
+            print("\nBye :)")
+            break
 
 if __name__ == "__main__":
     main()
