@@ -9,3 +9,8 @@
 - Edit your config in `.env`
 - Download `Chromedriver` and put in your directory.
 - Run `sirify.py` (don't forget to install Libs from `requirements.txt`)
+
+## Image
+
+![ex1](./ex_img-1.png)
+![ex2](./ex_img-2.png)
